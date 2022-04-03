@@ -18,6 +18,9 @@ let siteName = () => {
   <main>
     <h1 class="title">{{ siteName() }}</h1>
     <h2>😌😌😌</h2>
+    <footer>
+      <p><a href="https://github.com/subins2000/kittum.com">Source Code</a></p>
+    </footer>
   </main>
 </template>
 
@@ -26,7 +29,7 @@ main {
   text-align: center;
 }
 
-.title {
+footer .title {
   font-size: 3.5rem;
 }
 
