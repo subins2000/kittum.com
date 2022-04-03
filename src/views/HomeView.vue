@@ -1,24 +1,22 @@
 <script setup>
-import * as punycode from "punycode";
+import { useSSRContext } from "vue";
 
-let host = window.location.host;
-if (host.indexOf("xn--") === -1) {
-  // For localhost, use sample "നോക്കി-ഇരുന്നോ-ഇപ്പോ.കിട്ടും.com"
-  host = "xn-----63hb0ea5keawa0ewk5a7ljewhf.xn--rvc1b4aa2noa6f.com";
+import { getSiteName } from "../utils/utils-es6";
+
+let host;
+if (import.meta.env.SSR) {
+  const ctx = useSSRContext();
+  host = ctx.host;
+} else {
+  host = window.location.host;
 }
-const hostInUnicode = punycode.toUnicode(host);
 
-let siteName = () => {
-  const withoutCom = hostInUnicode.slice(0, -4);
-  return withoutCom.replace(/[-.]/g, " ");
-};
-
-document.title = siteName();
+const siteName = getSiteName(host);
 </script>
 
 <template>
   <main>
-    <h1 class="title">{{ siteName() }}</h1>
+    <h1 class="title">{{ siteName }}</h1>
     <h2>😌😌😌</h2>
     <footer>
       <p><a href="https://github.com/subins2000/kittum.com">Source Code</a></p>
