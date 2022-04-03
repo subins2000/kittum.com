@@ -12,6 +12,8 @@ let siteName = () => {
   const withoutCom = hostInUnicode.slice(0, -4);
   return withoutCom.replace(/[-.]/g, " ");
 };
+
+document.title = siteName();
 </script>
 
 <template>
