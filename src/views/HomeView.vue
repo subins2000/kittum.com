@@ -27,8 +27,12 @@ const siteName = getSiteName(host);
 <style scoped>
 main {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
-
 footer .title {
   font-size: 3.5rem;
 }
