@@ -3,7 +3,6 @@ import pages from "../pages/index.json";
 
 function findPage(host) {
   const subdomain = host.replace(`.കിട്ടും.com`, "")
-  console.log(subdomain)
   return pages.find(page => new RegExp(page.regex).test(subdomain))
 }
 
@@ -18,21 +17,24 @@ export function getSiteInfo(host) {
   }
   const hostInUnicode = punycode.toUnicode(host);
 
-  let title, subtitle;
+  let title, subtitle, description;
 
   const page = findPage(hostInUnicode)
 
   if (page) {
     title = page.title
     subtitle = page.subtitle;
+    description = page.description;
   } else {
     const withoutCom = hostInUnicode.slice(0, -4);
     title = withoutCom.replace(/[-.]/g, " ");
     subtitle = "😌😌😌"
+    description = title
   }
 
   return {
     title,
-    subtitle
+    subtitle,
+    description
   }
 }
