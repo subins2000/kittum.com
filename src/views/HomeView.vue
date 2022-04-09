@@ -1,7 +1,7 @@
 <script setup>
 import { useSSRContext } from "vue";
 
-import { getSiteName } from "../utils/utils-es6";
+import { getSiteInfo } from "../utils/utils-es6";
 
 let host;
 if (import.meta.env.SSR) {
@@ -11,15 +11,17 @@ if (import.meta.env.SSR) {
   host = window.location.host;
 }
 
-const siteName = getSiteName(host);
+const { title, subtitle } = getSiteInfo(host);
 </script>
 
 <template>
   <main>
-    <h1 class="title">{{ siteName }}</h1>
-    <h2>😌😌😌</h2>
+    <div>
+      <h1 class="title">{{ title }}</h1>
+      <h2>{{ subtitle }}</h2>
+    </div>
     <footer>
-      <p><a href="https://github.com/subins2000/kittum.com">Source Code</a></p>
+      <p><a href="https://github.com/subins2000/kittum.com">ഉറവിടം</a></p>
     </footer>
   </main>
 </template>
@@ -31,7 +33,9 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 20vh;
   min-height: 100vh;
+  padding: 2vh;
 }
 footer .title {
   font-size: 3.5rem;

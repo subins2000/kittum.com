@@ -1,12 +1,38 @@
 import * as punycode from "punycode";
+import pages from "../pages/index.json";
 
-export function getSiteName(host) {
+function findPage(host) {
+  const subdomain = host.replace(`.കിട്ടും.com`, "")
+  console.log(subdomain)
+  return pages.find(page => new RegExp(page.regex).test(subdomain))
+}
+
+export function getSiteInfo(host) {
   if (host.indexOf("xn--") === -1) {
-    // For localhost, use sample "നോക്കി-ഇരുന്നോ-ഇപ്പോ.കിട്ടും.com"
-    host = "xn-----63hb0ea5keawa0ewk5a7ljewhf.xn--rvc1b4aa2noa6f.com";
+    // For localhost
+    
+    // const testDomain = "ബിരിയാണി-ഇപ്പോ.കിട്ടും.com"
+    const testDomain = "ബിരിയാണി-എപ്പോ.കിട്ടും.com"
+
+    host = punycode.toASCII(testDomain);
   }
   const hostInUnicode = punycode.toUnicode(host);
 
-  const withoutCom = hostInUnicode.slice(0, -4);
-  return withoutCom.replace(/[-.]/g, " ");
+  let title, subtitle;
+
+  const page = findPage(hostInUnicode)
+
+  if (page) {
+    title = page.title
+    subtitle = page.subtitle;
+  } else {
+    const withoutCom = hostInUnicode.slice(0, -4);
+    title = withoutCom.replace(/[-.]/g, " ");
+    subtitle = "😌😌😌"
+  }
+
+  return {
+    title,
+    subtitle
+  }
 }

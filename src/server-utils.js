@@ -1,8 +1,8 @@
-const {getSiteName} = require("./utils/utils-commonjs")
+const {getSiteInfo} = require("./utils/utils-commonjs")
 
 exports.headEnd = (req) => {
   const host = req.get("host");
   return `
-  <title>${getSiteName(host)}</title>
+  <title>${getSiteInfo(host).title}</title>
   `
 }
