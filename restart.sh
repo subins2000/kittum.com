@@ -1,2 +1,2 @@
-kill $(ps aux | grep '[s]erver.js' | awk '{print $2}')
-node "server.js" >> web.log &
+kill $(ps aux | grep '[k]ittum' | awk '{print $2}')
+./kittum >> web.log &
