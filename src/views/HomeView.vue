@@ -1,16 +1,7 @@
 <script setup>
-import { useSSRContext } from "vue";
+import { getSiteInfo } from "../utils";
 
-import { getSiteInfo } from "../utils/utils-es6";
-
-let host;
-if (import.meta.env.SSR) {
-  const ctx = useSSRContext();
-  host = ctx.host;
-} else {
-  host = window.location.host;
-}
-
+const host = window.location.host;
 const { title, subtitle } = getSiteInfo(host);
 </script>
 

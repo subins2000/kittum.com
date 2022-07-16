@@ -61,8 +61,8 @@ func HandleIndex(c echo.Context) error {
 	hostname, _, _ := net.SplitHostPort(c.Request().Host)
 	pageInfo := getPageInfo(hostname)
 
-	formattedHTML := strings.Replace(html, "${title}", pageInfo.title, 1)
-	formattedHTML = strings.Replace(formattedHTML, "${description}", pageInfo.description, 2)
+	formattedHTML := strings.Replace(html, "${title}", pageInfo.title, 50)
+	formattedHTML = strings.Replace(formattedHTML, "${description}", pageInfo.description, 50)
 
 	return c.HTML(http.StatusOK, formattedHTML)
 }

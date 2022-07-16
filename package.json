@@ -3,11 +3,9 @@
   "version": "1.1.0",
   "license": "AGPL-3.0-only",
   "scripts": {
-    "dev": "node server",
+    "dev": "vite",
     "build": "vite build",
-    "build:client": "vite build --ssrManifest --outDir dist/client",
-    "build:server": "vite build --outDir dist/server --ssr src/entry-server.js",
-    "preview": "vite preview --port 5050",
+    "build:utils": "esbuild src/utils.js --bundle --outfile=dist/utils.js --format=cjs",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
