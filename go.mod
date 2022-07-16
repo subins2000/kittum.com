@@ -3,7 +3,11 @@ module kittum
 go 1.17
 
 require (
-	github.com/labstack/echo/v4 v4.7.2 // indirect
+	github.com/labstack/echo/v4 v4.7.2
+	rogchap.com/v8go v0.7.1-0.20220413142009-da7f43c007a4
+)
+
+require (
 	github.com/labstack/gommon v0.3.1 // indirect
 	github.com/mattn/go-colorable v0.1.11 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
@@ -13,5 +17,4 @@ require (
 	golang.org/x/net v0.0.0-20211015210444-4f30a5c0130f // indirect
 	golang.org/x/sys v0.0.0-20211103235746-7861aae1554b // indirect
 	golang.org/x/text v0.3.7 // indirect
-	rogchap.com/v8go v0.7.0
 )
