@@ -1,12 +1,12 @@
-punycode = require("punycode");
-pages = require("../pages/index.json")
+import * as punycode from "punycode";
+import pages from "./pages/index.json";
 
 function findPage(host) {
   const subdomain = host.replace(`.കിട്ടും.com`, "")
   return pages.find(page => new RegExp(page.regex).test(subdomain))
 }
 
-function getSiteInfo(host) {
+export function getSiteInfo(host) {
   if (host.indexOf("xn--") === -1) {
     // For localhost
     
@@ -38,5 +38,3 @@ function getSiteInfo(host) {
     description
   }
 }
-
-module.exports = {getSiteInfo}
