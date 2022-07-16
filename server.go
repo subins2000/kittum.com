@@ -1,57 +1,79 @@
 package main
 
 import (
-	"encoding/json"
-	"io"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net"
 	"net/http"
-	"text/template"
+	"strings"
 
 	"github.com/labstack/echo/v4"
+	v8 "rogchap.com/v8go"
 )
 
-type TemplateRegistry struct {
-	templates *template.Template
-}
-
 type PageInfo struct {
-	Regex       string
-	Title       string
-	Subtitle    string
-	Description string
+	title       string
+	description string
 }
 
-var pages []PageInfo
+var jsContext *v8.Context
 
-func loadPagesJSON() {
-	data, err := ioutil.ReadFile("")
+func makeJSContext() {
+	scriptBytes, err := ioutil.ReadFile("dist/utils.js")
 	if err != nil {
-		log.Panicf("failed reading data from file: %s", err)
+		log.Fatalln(err.Error())
 	}
-	json.Unmarshal(, &pages)
+
+	iso := v8.NewIsolate()
+	jsContext = v8.NewContext(iso)
+
+	script := string(scriptBytes)
+
+	// dummy module object
+	jsContext.RunScript("var module = {}", "module.js")
+
+	_, err = jsContext.RunScript(script, "index.js")
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
-func getTitle() {
+func getPageInfo(host string) PageInfo {
+	jsContext.RunScript("var siteInfo = getSiteInfo('"+host+"')", "call.js")
+	title, _ := jsContext.RunScript("siteInfo.title", "retrieval.js")
+	description, _ := jsContext.RunScript("siteInfo.description", "retrieval.js")
 
+	return PageInfo{title.String(), description.String()}
 }
 
-func (t *TemplateRegistry) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	return t.templates.ExecuteTemplate(w, name, data)
+var html string
+
+func loadHTML() {
+	fileBytes, err := ioutil.ReadFile("dist/index.html")
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+	html = string(fileBytes)
 }
 
-func Index(c echo.Context) error {
-	return c.Render(http.StatusOK, "index.html", map[string]interface{}{
-		"title": getTitle(),
-	})
+func HandleIndex(c echo.Context) error {
+	hostname, _, _ := net.SplitHostPort(c.Request().Host)
+	pageInfo := getPageInfo(hostname)
+
+	formattedHTML := strings.Replace(html, "${title}", pageInfo.title, 1)
+	formattedHTML = strings.Replace(formattedHTML, "${description}", pageInfo.description, 2)
+
+	return c.HTML(http.StatusOK, formattedHTML)
 }
 
 func main() {
+	makeJSContext()
+	loadHTML()
+
 	e := echo.New()
 
-	e.Renderer = &TemplateRegistry{
-		templates: template.Must(template.ParseGlob("dist/*.html")),
-	}
-
-	e.GET("/", Index)
+	e.GET("/", HandleIndex)
 	e.Static("/", "dist")
 
 	e.Logger.Fatal(e.Start(":1323"))
