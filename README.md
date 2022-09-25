@@ -39,3 +39,15 @@ go run .
 ```
 
 ഇനി പണി തുടങ്ങിക്കോളീൻ.
+
+### Deployment
+
+Host on any Linux server.
+
+```
+pnpm build && pnpm build:utils
+go build .
+./restart.sh
+```
+
+An nginx config example is in repo. Note that LetsEncrypt allow single-level wildcard subdomains only (`*.example.com`). It doesn't give infinite wildcard subdomains (`*.*.example.com`). This is why the URL format recommends to use `-` as splitter instead of dot(`.`).

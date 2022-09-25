@@ -12,8 +12,9 @@ import (
 )
 
 type PageInfo struct {
-	title       string
-	description string
+	title         string
+	description   string
+	hostInUnicode string
 }
 
 var jsContext *v8.Context
@@ -42,11 +43,13 @@ func getPageInfo(host string) PageInfo {
 	jsContext.RunScript("var siteInfo = getSiteInfo('"+host+"')", "call.js")
 	title, _ := jsContext.RunScript("siteInfo.title", "retrieval.js")
 	description, _ := jsContext.RunScript("siteInfo.description", "retrieval.js")
+	hostInUnicode, _ := jsContext.RunScript("siteInfo.hostInUnicode", "retrieval.js")
 
-	return PageInfo{title.String(), description.String()}
+	return PageInfo{title.String(), description.String(), hostInUnicode.String()}
 }
 
 var html string
+var domainStats = make(map[string]int)
 
 func loadHTML() {
 	fileBytes, err := ioutil.ReadFile("dist/index.html")
@@ -64,7 +67,24 @@ func HandleIndex(c echo.Context) error {
 	formattedHTML := strings.Replace(html, "${title}", pageInfo.title, 50)
 	formattedHTML = strings.Replace(formattedHTML, "${description}", pageInfo.description, 50)
 
+	domainStatKey := pageInfo.hostInUnicode
+	if _, ok := domainStats[domainStatKey]; ok {
+		domainStats[domainStatKey] = domainStats[domainStatKey] + 1
+	} else {
+		domainStats[domainStatKey] = 1
+	}
+
 	return c.HTML(http.StatusOK, formattedHTML)
+}
+
+// HandleStats path "/stats" handler
+func HandleStats(c echo.Context) error {
+	responseHTML := "<html><body><ol>"
+	for domain, count := range domainStats {
+		responseHTML += fmt.Sprintf("<li>%s - %d</li>", domain, count)
+	}
+	responseHTML += "</ol></body></html>"
+	return c.HTML(http.StatusOK, responseHTML)
 }
 
 func main() {
@@ -74,6 +94,7 @@ func main() {
 	e := echo.New()
 
 	e.GET("/", HandleIndex)
+	e.GET("/stats", HandleStats)
 	e.Static("/", "dist")
 
 	e.Logger.Fatal(e.Start(":1323"))

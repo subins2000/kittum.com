@@ -36,5 +36,6 @@ export function getSiteInfo(host) {
     title,
     subtitle,
     description,
+    hostInUnicode,
   };
 }
