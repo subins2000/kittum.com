@@ -26,3 +26,16 @@ URL അനുസരിച്ച് താളിന്റെ രൂപം മാ�
   "subtitle": ""
 }
 ```
+
+## Development
+
+The frontend is written in Vue and backend in Go. We use Go for pre-rendering `<title>`, `<meta>` tags. Read [this blog post](https://subinsb.com/run-js-code-from-go-with-chrome-v8-engine/) for more.
+
+After cloning the repo, do these one-by-one to start the server :
+
+```bash
+pnpm build && pnpm build:utils
+go run .
+```
+
+ഇനി പണി തുടങ്ങിക്കോളീൻ.
