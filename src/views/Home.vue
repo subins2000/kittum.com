@@ -13,6 +13,7 @@ const { title, subtitle } = getSiteInfo(host);
     </div>
     <footer>
       <p><a href="https://github.com/subins2000/kittum.com">ഉറവിടം</a></p>
+      <p><router-link to="/usage">ഉപയോഗം</router-link></p>
     </footer>
   </main>
 </template>
@@ -26,10 +27,14 @@ main {
   justify-content: center;
   gap: 20vh;
   min-height: 100vh;
+  max-width: 500px;
+  margin: 0 auto;
   padding: 2vh;
 }
-footer .title {
-  font-size: 3.5rem;
+footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 p {
