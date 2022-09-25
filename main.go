@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net"
 	"net/http"
 	"strings"
 
@@ -57,8 +56,9 @@ func loadHTML() {
 	html = string(fileBytes)
 }
 
+// HandleIndex path "/" handler
 func HandleIndex(c echo.Context) error {
-	hostname, _, _ := net.SplitHostPort(c.Request().Host)
+	hostname := c.Request().Host
 	pageInfo := getPageInfo(hostname)
 
 	formattedHTML := strings.Replace(html, "${title}", pageInfo.title, 50)
