@@ -13,6 +13,7 @@ const { title, subtitle } = getSiteInfo(host);
     </div>
     <footer>
       <p><a href="https://github.com/subins2000/kittum.com">ഉറവിടം</a></p>
+      <p><a href="/create">ലിങ്കുണ്ടാക്കൂ</a></p>
     </footer>
   </main>
 </template>
