@@ -8,10 +8,10 @@ Format: <some-words-separated-by-dash-or_underscore>.കിട്ടും.com
 
 Words should be separated by dash `-` or underscore `_`.
 
-* https://നോക്കി-ഇരുന്നോ-ഇപ്പോ.കിട്ടും.com
-* https://ബിരിയാണി-ഇപ്പോ.കിട്ടും.com
-* https://കിട്ടും.കിട്ടും.com
-* https://ബിരിയാണി-എപ്പോ.കിട്ടും.com
+- https://നോക്കി-ഇരുന്നോ-ഇപ്പോ.കിട്ടും.com
+- https://ബിരിയാണി-ഇപ്പോ.കിട്ടും.com
+- https://കിട്ടും.കിട്ടും.com
+- https://ബിരിയാണി-എപ്പോ.കിട്ടും.com
 
 ## പ്രത്യേക താളുകൾ
 
@@ -34,7 +34,7 @@ The frontend is written in Vue and backend in Go. We use Go for pre-rendering `<
 After cloning the repo, do these one-by-one to start the server :
 
 ```bash
-pnpm build && pnpm build:utils
+pnpm install && pnpm run build && pnpm run build:utils
 go run .
 ```
 
@@ -45,8 +45,7 @@ go run .
 Host on any Linux server.
 
 ```
-pnpm build && pnpm build:utils
-go build .
+./build.sh
 ./restart.sh
 ```
 

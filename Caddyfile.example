@@ -1,0 +1,9 @@
+*.xn--rvc1b4aa2noa6f.com xn--rvc1b4aa2noa6f.com {
+  reverse_proxy :1323
+  tls {
+    dns namecheap {
+      api_key ""
+      user ""
+    }
+  }
+}
