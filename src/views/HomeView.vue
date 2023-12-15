@@ -1,6 +1,6 @@
 <script setup>
 import { getSiteInfo } from "../utils";
-
+import { RouterLink, RouterView } from "vue-router";
 const host = window.location.host;
 const { title, subtitle } = getSiteInfo(host);
 </script>
@@ -13,7 +13,8 @@ const { title, subtitle } = getSiteInfo(host);
     </div>
     <footer>
       <p><a href="https://github.com/subins2000/kittum.com">ഉറവിടം</a></p>
-      <p><a href="/create">ലിങ്കുണ്ടാക്കൂ</a></p>
+      <p><router-link to="/create">ലിങ്കുണ്ടാക്കൂ</router-link></p>
+    <p><router-link to="/about">ഉപയോഗം</router-link></p>  <!-- p tag is added to get the default style  -->
     </footer>
   </main>
 </template>
