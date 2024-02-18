@@ -96,6 +96,5 @@ func main() {
 	e.GET("/", HandleIndex)
 	e.GET("/stats", HandleStats)
 	e.Static("/", "dist")
-
 	e.Logger.Fatal(e.Start(":1323"))
 }
