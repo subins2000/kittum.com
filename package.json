@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "license": "AGPL-3.0-only",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite build && npm run build:utils && go build . && go run .",
     "build": "vite build",
     "build:utils": "esbuild src/utils.js --bundle --outfile=dist/utils.js --format=cjs",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"

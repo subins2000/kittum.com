@@ -1,12 +1,12 @@
 <template>
   <h1>ലിങ്ക് സൃഷ്ടിക്കാൻ</h1>
-  <div class="main_area">
-    <input type="text" v-model="subdomain" placeholder="എന്ത് കിട്ടും?" />
+  <form class="main_area">
+    <input type="text" v-model="subdomain" placeholder="എന്ത് കിട്ടും?" @input="validateInput" />
     <button @click="submit" class="submit_btn">സൃഷിടിക്കുക</button>
-  </div>
-  <div v-if="newLink" class="new_link_area">
+  </form>
+  <div v-if="newLink" @click="copyURL(newLink)" class="new_link_area">
     <b>{{ newLink }}</b>
-    <p class="copy-btn" @click="copyURL(newLink)">Copy</p>
+    <p class="copy-btn">Copy</p>
   </div>
 </template>
 <script>
@@ -18,7 +18,8 @@ export default {
     };
   },
   methods: {
-    submit() {
+    submit(event) {
+      event.preventDefault();
       const slug = this.subdomain
         .split(" ")
         .filter((x) => x != "")
@@ -28,11 +29,15 @@ export default {
     async copyURL(mytext) {
       try {
         await navigator.clipboard.writeText(mytext);
-        alert("Copied");
+        alert("ലിങ്ക് കിട്ടിയിട്ടുണ്ട് !");
       } catch ($e) {
-        alert("Cannot copy");
+        alert("ലിങ്ക് കിട്ടിയില്ല !");
       }
     },
+    validateInput() {
+      const regex = /[^a-zA-Z0-9-_\u0D00-\u0D7F]/g;
+      this.subdomain = this.subdomain.replace(regex, "");
+    }
   },
 };
 </script>
@@ -41,9 +46,11 @@ body {
   display: flex;
   align-items: center;
 }
+
 h1 {
   text-align: center;
 }
+
 input {
   width: 100%;
   background-color: #f5f5f5;
@@ -90,13 +97,15 @@ input:hover {
   padding: 10px;
   border-radius: 4px;
   display: flex;
+  cursor: pointer;
 }
 
 .copy-btn {
-  background-color: var(--color-background);
+  background-color: #656565;
   color: white;
-  margin-left: 10px;
-  cursor: pointer;
+  border-radius: 4px;
+  margin-left: auto;
   padding: 2px;
+  padding-inline: 4px;
 }
 </style>
