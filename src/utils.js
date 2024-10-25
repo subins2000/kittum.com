@@ -27,7 +27,7 @@ export function getSiteInfo(host) {
     description = page.description;
   } else {
     const withoutCom = hostInUnicode.slice(0, -4);
-    title = withoutCom.replace(/[-.]/g, " ");
+    title = withoutCom.replace(/[-._]/g, " ");
     subtitle = "😌😌😌";
     description = title;
   }
